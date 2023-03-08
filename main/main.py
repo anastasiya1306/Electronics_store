@@ -1,30 +1,47 @@
+import csv
+
+
 class Item:
     pay_rate = 1
     all = []
 
     def __init__(self, name, price, quantity):
-        self.name = name
+        self.__name = name
         self.price = price
         self.quantity = quantity
-        self.all.append(self)
+        Item.all.append(self)
+
+    @classmethod
+    def instantiate_from_csv(cls, path: str):
+        items = []
+        """Считывает данные из csv-файла и создает экземпляры класса, инициализируя их данными из файла"""
+        with open(path, 'r', encoding="UTF-8") as file:
+            file_csv = csv.DictReader(file)
+            for row in file_csv:
+                items.append(cls(row['name'], int(row['price']), int(row['quantity'])))
+        return items
+
+    @staticmethod
+    def is_integer(number) -> bool:
+        """Проверяет, является ли число целым"""
+        return int(number) == float(number)
+
+    @property
+    def name(self) -> str:
+        """Возвращает название товара"""
+        return self.__name
+
+    @name.setter
+    def name(self, value: str):
+        """Проверяет, что при задании названия товара длина его не превышает 10 символов"""
+        if len(value) <= 10:
+            self.__name = value
+        else:
+            raise Exception('Длина наименования товара превышает 10 символов')
 
     def calculate_total_price(self):
-        self.calculate_total_price = self.price * self.quantity
-        return self.calculate_total_price
+        return self.price * self.quantity
 
-
-    def apply_discount(self,):
+    def apply_discount(self):
         self.price = self.price * self.pay_rate
         return self.price
-
-if __name__ == '__main__':
-    item1 = Item("Смартфон", 10000, 20)
-    item2 = Item("Ноутбук", 20000, 5)
-    print(item1.calculate_total_price())
-    print(item2.calculate_total_price())
-    Item.pay_rate = 0.8
-    item1.apply_discount()
-    print(item1.price)
-    print(item2.price)
-
-    print(Item.all)
