@@ -11,6 +11,15 @@ class Item:
         self.quantity = quantity
         Item.all.append(self)
 
+
+    def __repr__(self) -> str:
+        """Выводит информацию об экземпляре класса"""
+        return f'Item({self.__name}, {self.price}, {self.quantity})'
+
+    def __str__(self) -> str:
+        """Выводит информацию пользователям об экземпляре класса"""
+        return f'{self.__name}'
+
     @classmethod
     def instantiate_from_csv(cls, path: str):
         items = []
