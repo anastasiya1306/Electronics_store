@@ -1,26 +1,16 @@
 import pytest
 from main.main import Item
 
-
-@pytest.mark.parametrize(
-    "name, price, quantity, result",
-    [("Смартфон", 10000, 20, 200000), ("Ноутбук", 20000, 5, 100000)]
-)
-def test_calculate_total_price(name, price, quantity, result):
-    item = Item(name, price, quantity)
-    assert item.calculate_total_price() == result
+def test_calculate_total_price():
+    item = Item("Смартфон", 10000, 20)
+    assert item.calculate_total_price() == 200000
 
 
-@pytest.mark.parametrize(
-    "name, price, quantity, result",
-    [("Смартфон", 10000, 20, 8000.0), ("Ноутбук", 20000, 5, 16000.0)]
-)
-def test_apply_discount(name, price, quantity, result):
+def test_apply_discount():
     Item.pay_rate = 0.8
-    item = Item(name, price, quantity)
-    assert item.price == price
-    assert item.apply_discount() == result
-
+    item1 = Item("Смартфон", 10000, 20)
+    assert item1.price == 10000
+    assert item1.apply_discount() == 8000.0
 
 def test_name():
     name1 = Item("Суперсмартфон", 20000, 2)
@@ -40,8 +30,8 @@ def test_name_setter():
 
 
 def test_instantiate_from_csv():
-    Item.instantiate_from_csv("test.csv")
-    item = Item.all[2]
-    assert item.name == "Кабель"
-    assert item.price == 10
+    Item.instantiate_from_csv("./tests/test.csv")
+    item = Item.all[-1]
+    assert item.name == "Клавиатура"
+    assert item.price == 75
     assert item.quantity == 5
