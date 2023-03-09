@@ -18,10 +18,12 @@ if __name__ == '__main__':
 
     # item.name = 'СуперСмартфон'
 
-    Item.instantiate_from_csv("items.csv")
-    print(len(Item.all))
-    item1 = Item.all[0]
-    print(item1.name)
-    print(Item.is_integer(5))
-    print(Item.is_integer(5.0))
-    print(Item.is_integer(5.5))
+    # Item.instantiate_from_csv("items.csv")
+    # print(len(Item.all))
+    # item1 = Item.all[0]
+    # print(item1.name)
+    # print(Item.is_integer(5))
+    # print(Item.is_integer(5.0))
+    # print(Item.is_integer(5.5))
+    item1 = Item("Смартфон", 10000, 20)
+    print(item1)
