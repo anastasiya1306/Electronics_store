@@ -11,7 +11,6 @@ class Item:
         self.quantity = quantity
         Item.all.append(self)
 
-
     def __repr__(self) -> str:
         """Выводит информацию об экземпляре класса"""
         return f'Item({self.__name}, {self.price}, {self.quantity})'
@@ -54,3 +53,33 @@ class Item:
     def apply_discount(self):
         self.price = self.price * self.pay_rate
         return self.price
+
+
+class Phone(Item):
+    def __init__(self, name, price, quantity, number_of_sim):
+        super().__init__(name, price, quantity)
+        self._number_of_sim = number_of_sim
+
+    @property
+    def number_of_sim(self) -> int:
+        """Возвращает количество SIM-карт"""
+        return self._number_of_sim
+
+    @number_of_sim.setter
+    def number_of_sim(self, value: int):
+        """Проверяет, чтобы количество физических SIM-карт было целым числом больше нуля"""
+        if value > 0:
+            self._number_of_sim = value
+        else:
+            raise ValueError('Количество физических SIM-карт должно быть целым числом больше нуля.')
+
+    def __add__(self, other):
+        """Сложение экземпляров класса Phone и Item. Сложение идет по количеству товара в магазине."""
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        else:
+            raise ValueError('Запрещено сложение с объектами других классов')
+
+    def __repr__(self) -> str:
+        """Выводит информацию об экземпляре класса Phone"""
+        return f'Phone({self.name}, {self.price}, {self.quantity}, {self._number_of_sim})'
