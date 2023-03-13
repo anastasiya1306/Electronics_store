@@ -1,4 +1,4 @@
-from main import Item
+from main import Item, Phone
 
 if __name__ == '__main__':
     # item1 = Item("Смартфон", 10000, 20)
@@ -26,4 +26,13 @@ if __name__ == '__main__':
     # print(Item.is_integer(5.0))
     # print(Item.is_integer(5.5))
     item1 = Item("Смартфон", 10000, 20)
-    print(item1)
+    # print(repr(item1))
+    # # print(item1)
+    phone1 = Phone("iPhone 14", 120_000, 5, 2)
+    print(phone1)
+    print(repr(phone1))
+    # phone1.number_of_sim = 0
+    print(phone1 + item1)
+    print(phone1 + 100)
+    # print(phone1.number_of_sim)
+

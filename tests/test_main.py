@@ -1,5 +1,11 @@
 import pytest
-from main.main import Item
+from main.main import Item, Phone
+
+
+@pytest.fixture
+def phone():
+    phone = Phone("iPhone 14", 120_000, 5, 2)
+    return phone
 
 
 def test_calculate_total_price():
@@ -47,3 +53,24 @@ def test_repr():
 def test_str():
     item1 = Item("Смартфон", 10000, 20)
     assert item1.__str__() == "Смартфон"
+
+
+def test_number_of_sim(phone):
+    assert phone.number_of_sim == 2
+
+
+def test_number_of_sim_setter(phone):
+    with pytest.raises(ValueError):
+        phone.number_of_sim = 0
+    assert phone.number_of_sim == 2
+
+
+def test_add(phone):
+    item1 = Item("Смартфон", 10000, 20)
+    with pytest.raises(ValueError):
+        phone + 1000
+    assert phone + item1 == 25
+
+
+def test_repr(phone):
+    assert phone.__repr__() == 'Phone(iPhone 14, 120000, 5, 2)'
