@@ -1,11 +1,17 @@
 import pytest
-from main.main import Item, Phone
+from main.main import Item, Phone, KeyBoard, MixinLog
 
 
 @pytest.fixture
 def phone():
     phone = Phone("iPhone 14", 120_000, 5, 2)
     return phone
+
+
+@pytest.fixture
+def keyboard():
+    kb = KeyBoard('Dark Project KD87A', 9600, 5)
+    return kb
 
 
 def test_calculate_total_price():
@@ -45,11 +51,6 @@ def test_instantiate_from_csv():
     assert item.quantity == 5
 
 
-def test_repr():
-    item1 = Item("Смартфон", 10000, 20)
-    assert item1.__repr__() == 'Item(Смартфон, 10000, 20)'
-
-
 def test_str():
     item1 = Item("Смартфон", 10000, 20)
     assert item1.__str__() == "Смартфон"
@@ -74,3 +75,10 @@ def test_add(phone):
 
 def test_repr(phone):
     assert phone.__repr__() == 'Phone(iPhone 14, 120000, 5, 2)'
+
+
+def test_keyboard(keyboard):
+    assert keyboard.name == 'Dark Project KD87A'
+    assert keyboard.language == 'EN'
+    keyboard.change_lang()
+    assert keyboard.language == 'RU'
