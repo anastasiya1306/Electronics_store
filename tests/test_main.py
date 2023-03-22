@@ -82,3 +82,8 @@ def test_keyboard(keyboard):
     assert keyboard.language == 'EN'
     keyboard.change_lang()
     assert keyboard.language == 'RU'
+
+
+def test_instantiate_from_csv():
+    assert Item.instantiate_from_csv('tests/tests.csv') == 'Отсутствует файл item.csv'
+    assert Item.instantiate_from_csv('tests/test.csv') == 'Файл items.csv поврежден'
