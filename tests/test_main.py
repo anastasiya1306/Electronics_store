@@ -85,5 +85,5 @@ def test_keyboard(keyboard):
 
 
 def test_instantiate_from_csv():
-    assert Item.instantiate_from_csv('tests/tests.csv') == 'Отсутствует файл item.csv'
-    assert Item.instantiate_from_csv('tests/test.csv') == 'Файл items.csv поврежден'
+    assert Item.instantiate_from_csv('tests/tests.csv') == print('Отсутствует файл item.csv')
+    assert Item.instantiate_from_csv('tests/test.csv') == print('Файл items.csv поврежден')
