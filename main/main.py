@@ -23,11 +23,19 @@ class Item:
     def instantiate_from_csv(cls, path: str):
         items = []
         """Считывает данные из csv-файла и создает экземпляры класса, инициализируя их данными из файла"""
-        with open(path, 'r', encoding="UTF-8") as file:
-            file_csv = csv.DictReader(file)
-            for row in file_csv:
-                items.append(cls(row['name'], int(row['price']), int(row['quantity'])))
-        return items
+        try:
+            with open(path, 'r', encoding="UTF-8") as file:
+                file_csv = csv.DictReader(file)
+                for row in file_csv:
+                    if list(row.keys()) != ['name', 'price', 'quantity']:
+                        raise InstantiateCSVError
+                    else:
+                        items.append(cls(row['name'], int(row['price']), int(row['quantity'])))
+                return items
+        except InstantiateCSVError:
+            print(f'Файл items.csv поврежден')
+        except FileNotFoundError:
+            print(f'Отсутствует файл item.csv')
 
     @staticmethod
     def is_integer(number) -> bool:
@@ -87,6 +95,7 @@ class Phone(Item):
 
 class MixinLog:
     """Дополнительный функционал по хранению и изменению раскладки клавиатуры"""
+
     def __init__(self, *args, **kwargs):
         self._language = 'EN'
         super().__init__(*args, **kwargs)
@@ -94,7 +103,6 @@ class MixinLog:
     @property
     def language(self):
         return self._language
-
 
     def change_lang(self):
         if self._language == 'EN':
@@ -106,3 +114,15 @@ class MixinLog:
 class KeyBoard(MixinLog, Item):
     def __init__(self, name, price, quantity):
         super().__init__(name, price, quantity)
+
+
+class InstantiateCSVError(Exception):
+    """Класс-исключение"""
+    def __init__(self, *args, **kwargs):
+        self.message = args[0] if args else f'Файл поврежден'
+
+    def __str__(self):
+        return self.message
+
+
+Item.instantiate_from_csv('items.csv')
